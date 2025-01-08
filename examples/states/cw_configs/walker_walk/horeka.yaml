@@ -4,7 +4,7 @@ partition: "accelerated"
 job-name: "walker_walk"
 num_parallel_jobs: 120
 ntasks: 1
-cpus-per-task: 152
+cpus-per-task: 19
 mem-per-cpu: 2048
 time: 100
 #gpus_per_rep: 1
