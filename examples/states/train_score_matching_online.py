@@ -1,3 +1,4 @@
+import copy
 
 #! /usr/bin/env python
 # import dmcgym
@@ -26,6 +27,31 @@ from jaxrl5.evaluation import evaluate
 from jaxrl5.wrappers import wrap_gym
 from jaxrl5.wrappers.wandb_video import WANDBVideo
 
+
+def parse_hps_to_file():
+    source_file_name = "configs/score_matching_config.py"
+    target_file_name = "configs/tmp_score_matching_config.py"
+    # Load python file
+    with open(source_file_name, "r") as file:
+        config_data = copy.deepcopy(file.readlines())
+        # Replace hyperparameters
+        # Denoising steps
+        config_data[9] = config_data[9].replace("T = 5", f"T = {denoising_steps}")
+        # Alpha value
+        config_data[10] = config_data[10].replace("M_q = 50", f"M_q = {alpha}")
+        # Critic hidden, turn width and depth into tuple
+        crit_hidden_str = f"({','.join([str(critic_width)] * critic_depth)})"
+        config_data[12] = config_data[12].replace("critic_hidden_dims=(512,512)",
+                                f"critic_hidden_dims={crit_hidden_str}")
+        # Actor hidden, turn width and depth into tuple
+        act_hidden_str = f"({','.join([str(actor_width)] * actor_depth)})"
+        config_data[13] = config_data[13].replace("actor_hidden_dims=(512,512)",
+                                f"actor_hidden_dims={act_hidden_str}")
+        # Write to new file
+        with open(target_file_name, "w") as target_file:
+            target_file.writelines(config_data)
+
+
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string("project_name", "jaxrl5_online", "wandb project name.")
@@ -41,10 +67,31 @@ flags.DEFINE_integer(
     "start_training", int(1e4), "Number of training steps to start training."
 )
 flags.DEFINE_boolean("tqdm", True, "Use tqdm progress bar.")
-flags.DEFINE_boolean("wandb", False, "Use wandb")
+flags.DEFINE_boolean("wandb", True, "Use wandb")
 flags.DEFINE_boolean("no_reset_env", False, "Turn off environment resets")
 flags.DEFINE_boolean("save_video", True, "Save videos during evaluation.")
 flags.DEFINE_integer("utd_ratio", 1, "Update to data ratio.")
+
+# Config training hyperparameters
+denoising_steps = 10
+alpha = 100
+actor_width = 1024
+actor_depth = 3
+critic_width = 1024
+critic_depth = 3
+
+
+flags.DEFINE_integer("T", denoising_steps, "Denoising steps.")
+flags.DEFINE_integer("M_q", alpha, "Alpha value.")
+
+flags.DEFINE_integer("actor_hidden", actor_width, "Width of policy net.")
+flags.DEFINE_integer("actor_depth", actor_depth, "Depth of policy net.")
+
+flags.DEFINE_integer("critic_hidden", critic_width, "Width of critic net.")
+flags.DEFINE_integer("critic_depth", critic_depth, "Depth of critic net.")
+
+parse_hps_to_file()
+
 config_flags.DEFINE_config_file(
     "config",
     "configs/score_matching_config.py",
