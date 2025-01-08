@@ -14,7 +14,7 @@ alias scpu_dev='salloc -p dev_cpuonly -n 1 -t 120 --mem=200000 --account=hk-proj
 
 
 # cd alias
-alias cdmprl='cd /home/hk-project-robolrn/vs1077/projects/onur/score_matching_rl/examples/states'
+alias cdmprl='cd ~/projects/onur/score_matching_rl/examples/states'
 
 # Git alias
 alias gp='cdmprl && git pull'
