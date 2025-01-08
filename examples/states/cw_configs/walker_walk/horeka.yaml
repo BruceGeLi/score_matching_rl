@@ -7,16 +7,16 @@ ntasks: 1
 cpus-per-task: 152
 mem-per-cpu: 2048
 time: 100
-gpus_per_rep: 1
-scheduler: horeka
+#gpus_per_rep: 1
+#scheduler: horeka
 sbatch_args:
-  gres: "gpu:4"
+  gres: "gpu:1"
 ---
 
 # cw2 config
 repetitions: 4            # Number of repetitions, each with different random seed, 4 for test, 20 for paper
-reps_per_job: 4
-reps_in_parallel: 4
+reps_per_job: 1
+reps_in_parallel: 1
 
 
 # Global config
