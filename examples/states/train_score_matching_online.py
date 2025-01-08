@@ -100,6 +100,9 @@ class QSMExperiment(experiment.AbstractExperiment):
                 wandb.init(project=project_name,
                            group=group_name,)
 
+        wandb.config.update(train_configs)
+        wandb.config.update({"seed": seed})
+
         suite, task = env_name.split('_')
         env = dmc2gym.make(domain_name=suite, task_name=task, seed=1)
         # env = gym.make(env_name)
