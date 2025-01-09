@@ -22,7 +22,7 @@ reps_in_parallel: 4
 # Global config
 exp_name: &exp_name "dog_trot"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "Tune dnoise steps, Onur's default, alpha 50"
+sub_exp_name: &sub_exp_name "Tune alpha, Onur's default, dstep 5"
 
 # cw2 config
 name: *exp_name
@@ -42,5 +42,5 @@ params:
   critic_depth: 2
 
 grid:
-  denoising_steps: [ 5, 10, 15 ]
-#  alpha: 50
+#  denoising_steps: [ 5, 10, 15 ]
+  alpha: [10, 25, 100]
