@@ -1,4 +1,8 @@
 import copy
+import logging
+import sys
+from datetime import datetime
+from typing import Union
 
 # ! /usr/bin/env python
 # import dmcgym
@@ -16,6 +20,7 @@ import numpy as np
 import dmc2gym
 
 import os
+from pathlib import Path
 
 os.environ['MKL_SERVICE_FORCE_INTEL'] = '1'
 os.environ['MUJOCO_GL'] = 'egl'
@@ -46,6 +51,195 @@ def parse_train_hps(denoising_steps, alpha, critic_width, critic_depth,
     # Actor hidden, turn width and depth into tuple
     train_configs.actor_hidden_dims = (actor_width,) * actor_depth
     return train_configs
+
+
+def is_slurm(cw: cluster_work.ClusterWork):
+    if cw.args["slurm"]:
+        return True
+    else:
+        return False
+
+
+def is_on_local_machine():
+    if any(["local" in argv for argv in sys.argv]):
+        return True
+    else:
+        return False
+
+
+def get_formatted_date_time() -> str:
+    """
+    Get formatted date and time, e.g. May-01-2021 22:14:31
+    Returns:
+        dt_string: date time string
+    """
+    now = datetime.now()
+    dt_string = now.strftime("%b-%2d-%Y-%H:%M:%S")
+    return dt_string
+
+
+def join_path(*paths: Union[str]) -> str:
+    """
+
+    Args:
+        *paths: paths to join
+
+    Returns:
+        joined path
+    """
+    return os.path.join(*paths)
+
+
+def mkdir(directory: str, overwrite: bool = False):
+    """
+
+    Args:
+        directory: dir path to make
+        overwrite: overwrite exist dir
+
+    Returns:
+        None
+
+    Raise:
+        FileExistsError if dir exists and overwrite is False
+    """
+    path = Path(directory)
+    try:
+        path.mkdir(parents=True, exist_ok=overwrite)
+    except FileExistsError:
+        logging.error("Directory already exists, remove it before make a new one.")
+        raise
+
+
+def dir_go_up(num_level: int = 2, current_file_dir: str = "default") -> str:
+    """
+    Go to upper n level of current file directory
+    Args:
+        num_level: number of level to go up
+        current_file_dir: current dir
+
+    Returns:
+        dir n level up
+    """
+    if current_file_dir == "default":
+        current_file_dir = os.path.realpath(__file__)
+    while num_level != 0:
+        current_file_dir = os.path.dirname(current_file_dir)
+        num_level -= 1
+    return current_file_dir
+
+
+def make_log_dir_with_time_stamp(log_name: str) -> str:
+    """
+    Get the dir to the log
+    Args:
+        log_name: log's name
+
+    Returns:
+        directory to log file
+    """
+
+    return os.path.join(dir_go_up(2), "log", log_name,
+                        get_formatted_date_time())
+
+
+def set_value_in_nest_dict(config, key, value):
+    """
+    Set value of a certain key in a recursive way in a nested dictionary
+
+    Args:
+        config: configuration dictionary
+        key: key to ref
+        value: value to set
+
+    Returns:
+        config
+    """
+    for k in config.keys():
+        if k == key:
+            config[k] = value
+        if isinstance(config[k], dict):
+            set_value_in_nest_dict(config[k], key, value)
+    return config
+
+
+def process_train_rep_config_file(cw, config_obj):
+    """
+    Given processed cw2 configuration, do further process, including:
+    - Overwrite log path with time stamp
+    - Create model save folders
+    - Overwrite random seed by the repetition number
+    - Save the current repository commits
+    - Make a copy of the config and restore the exp path to the original
+    - Dump this copied config into yaml file into the model save folder
+    - Dump the current time stamped config file in log folder to make slurm
+      call bug free
+    Args:
+        exp_configs: list of configs processed by cw2 already
+
+    Returns:
+        None
+
+    """
+    exp_configs = config_obj.exp_configs
+    formatted_time = get_formatted_date_time()
+    # Loop over the config of each repetition
+    for i, rep_config in enumerate(exp_configs):
+        # overwrite the log path in case of code copy only in slurm
+        if (is_slurm(cw) and "experiment_copy_auto_dst"
+                in config_obj.slurm_config.keys()):
+            # self.manage_code_copy_path(rep_config)
+            pass
+
+        # Add time stamp to log directory
+        log_path = os.path.abspath(rep_config["log_path"])
+        rep_log_path = os.path.abspath(rep_config["_rep_log_path"])
+        rep_config["log_path"] = \
+            log_path.replace("log", f"log_{formatted_time}")
+        rep_config["_rep_log_path"] = \
+            rep_log_path.replace("log", f"log_{formatted_time}")
+
+        # Make model save directory
+        model_save_dir = join_path(rep_config["_rep_log_path"],
+                                   "model")
+        try:
+            mkdir(os.path.abspath(model_save_dir))
+        except FileExistsError:
+            import logging
+            logging.error(formatted_time)
+            raise
+
+        # Set random seed to the repetition number
+        set_value_in_nest_dict(rep_config, "seed",
+                               rep_config['_rep_idx'])
+
+        # Make a hard copy of the config
+        copied_rep_config = copy.deepcopy(rep_config)
+
+        # Recover the path to its original
+        copied_rep_config["path"] = copied_rep_config["_basic_path"]
+
+        # Reset the repetition number to 1 for future test usage
+        copied_rep_config["repetitions"] = 1
+        if copied_rep_config.get("reps_in_parallel", False):
+            del copied_rep_config["reps_in_parallel"]
+        if copied_rep_config.get("reps_per_job", False):
+            del copied_rep_config["reps_per_job"]
+
+        # Delete the generated cw2 configs
+        for key in rep_config.keys():
+            if key[0] == "_":
+                del copied_rep_config[key]
+        del copied_rep_config["log_path"]
+
+    # Save the time stamped config file in local /log directory
+    time_stamped_config_path = make_log_dir_with_time_stamp("")
+    mkdir(time_stamped_config_path, overwrite=True)
+
+    config_obj.to_yaml(time_stamped_config_path,
+                       relpath=False)
+    config_obj.config_path = join_path(time_stamped_config_path,
+                                       "relative_" + config_obj.f_name)
 
 
 class QSMExperiment(experiment.AbstractExperiment):
@@ -224,4 +418,6 @@ if __name__ == "__main__":
             os.environ[key] = os.environ[key].replace("-xCORE-AVX2", "")
 
     cw = cluster_work.ClusterWork(QSMExperiment)
+    if is_slurm(cw) or is_on_local_machine():
+        process_train_rep_config_file(cw, cw.config)
     cw.run()
