@@ -69,8 +69,8 @@ class QSMExperiment(experiment.AbstractExperiment):
         log_interval = 1000
         eval_interval = 10000
         batch_size = 256
-        # max_steps = int(1e6)
-        max_steps = 15000
+        max_steps = int(1e6)
+        # max_steps = 15000
         start_training = int(1e4)
         use_tqdm = True
         use_wandb = True
