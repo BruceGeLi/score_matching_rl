@@ -27,4 +27,4 @@ alias ss='cd ~/ && source .bashrc && conda activate onur_icml'
 alias runexp='cdmprl && python train_score_matching_online.py'
 
 ## Walker walk
-alias walker_walk='runexp ./cw_configs/walker_walk/horeka.yaml   -o -s'
+alias walker_walk='runexp ./cw_configs/_walker_walk/horeka.yaml   -o -s'
