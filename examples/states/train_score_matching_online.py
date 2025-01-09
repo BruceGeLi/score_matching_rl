@@ -35,7 +35,6 @@ from configs.score_matching_config import get_config
 
 def parse_train_hps(denoising_steps, alpha, critic_width, critic_depth,
                     actor_width, actor_depth):
-    source_file_name = "configs/score_matching_config.py"
 
     train_configs = get_config()
 
@@ -100,7 +99,7 @@ class QSMExperiment(experiment.AbstractExperiment):
                 wandb.init(project=project_name,
                            group=group_name,)
 
-        wandb.config.update(train_configs)
+        wandb.config.update(dict(train_configs))
         wandb.config.update({"seed": seed})
 
         suite, task = env_name.split('_')
