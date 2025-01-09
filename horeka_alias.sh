@@ -50,3 +50,7 @@ alias humanoid_stand='runexp ./cw_configs/humanoid_stand/horeka.yaml   -o -s'
 
 ## Humanoid walk
 alias humanoid_walk='runexp ./cw_configs/humanoid_walk/horeka.yaml   -o -s'
+
+
+## Run all jobs together with 1 second delay in between
+alias run_all_dmc='dog_run && sleep 1 && dog_walk && sleep 1 && dog_stand && sleep 1 && dog_trot && sleep 1 && humanoid_run && sleep 1 && humanoid_stand && sleep 1 && humanoid_walk && sleep 1'
