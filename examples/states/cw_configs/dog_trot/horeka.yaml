@@ -1,0 +1,42 @@
+---
+name: "SLURM"
+partition: "accelerated"
+job-name: "dog_trot"
+num_parallel_jobs: 120
+ntasks: 1
+cpus-per-task: 152
+time: 600
+gpus_per_rep: 1
+scheduler: horeka
+sbatch_args:
+  gres: "gpu:4"
+  account: "hk-project-p0022232"
+---
+
+# cw2 config
+repetitions: 4            # Number of repetitions, each with different random seed, 4 for test, 20 for paper
+reps_per_job: 4
+reps_in_parallel: 4
+
+
+# Global config
+exp_name: &exp_name "dog_trot"
+exp_path: &exp_path "../../../qsm_exp_result"
+sub_exp_name: &sub_exp_name "First try"
+
+# cw2 config
+name: *exp_name
+path: *exp_path
+
+# experiment parameters
+params:
+  wandb:
+    project: *exp_name
+    group: *sub_exp_name
+  env_id: *exp_name
+  denoising_steps: 5
+  alpha: 50
+  actor_width: 512
+  actor_depth: 2
+  critic_width: 512
+  critic_depth: 2

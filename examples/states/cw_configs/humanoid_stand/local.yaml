@@ -1,0 +1,25 @@
+
+# Global config
+exp_name: &exp_name "humanoid_stand"
+exp_path: &exp_path "../../../qsm_exp_result"
+sub_exp_name: &sub_exp_name "First try"
+
+# cw2 config
+name: *exp_name
+path: *exp_path
+repetitions: 1
+reps_per_job: 1
+reps_in_parallel: 1
+
+# experiment parameters
+params:
+  wandb:
+    project: *exp_name
+    group: *sub_exp_name
+  env_id: *exp_name
+  denoising_steps: 5
+  alpha: 50
+  actor_width: 512
+  actor_depth: 2
+  critic_width: 512
+  critic_depth: 2
