@@ -1,6 +1,6 @@
 import copy
 
-#! /usr/bin/env python
+# ! /usr/bin/env python
 # import dmcgym
 import jax.profiler
 import jax
@@ -16,9 +16,9 @@ import numpy as np
 import dmc2gym
 
 import os
+
 os.environ['MKL_SERVICE_FORCE_INTEL'] = '1'
 os.environ['MUJOCO_GL'] = 'egl'
-
 
 from jaxrl5.agents import ScoreMatchingLearner, TD3Learner
 from jaxrl5.data import ReplayBuffer
@@ -35,7 +35,6 @@ from configs.score_matching_config import get_config
 
 def parse_train_hps(denoising_steps, alpha, critic_width, critic_depth,
                     actor_width, actor_depth):
-
     train_configs = get_config()
 
     # Denoising steps
@@ -70,7 +69,8 @@ class QSMExperiment(experiment.AbstractExperiment):
         log_interval = 1000
         eval_interval = 10000
         batch_size = 256
-        max_steps = int(1e6)
+        # max_steps = int(1e6)
+        max_steps = 15000
         start_training = int(1e4)
         use_tqdm = True
         use_wandb = True
@@ -92,15 +92,16 @@ class QSMExperiment(experiment.AbstractExperiment):
 
         if use_wandb:
             if wandb_run_name != "":
-                wandb.init(project=project_name, name=wandb_run_name,
-                           group=group_name,
-                           tags=[wandb_run_name])
+                self.wandb_run = wandb.init(project=project_name,
+                                            name=wandb_run_name,
+                                            group=group_name,
+                                            tags=[wandb_run_name])
             else:
-                wandb.init(project=project_name,
-                           group=group_name,)
+                self.wandb_run = wandb.init(project=project_name,
+                                            group=group_name, )
 
-        wandb.config.update(dict(train_configs))
-        wandb.config.update({"seed": seed})
+        self.wandb_run.config.update(dict(train_configs))
+        self.wandb_run.config.update({"seed": seed})
 
         suite, task = env_name.split('_')
         print(f"Env name: {env_name}")
@@ -171,14 +172,16 @@ class QSMExperiment(experiment.AbstractExperiment):
                     if use_wandb:
                         for k, v in info["episode"].items():
                             decode = {"r": "return", "l": "length", "t": "time"}
-                            wandb.log({f"training/{decode[k]}": v}, step=i)
+                            self.wandb_run.log({f"training/{decode[k]}": v},
+                                               step=i)
                 else:
                     done = False
 
                     if use_wandb and i % log_interval == 0:
                         for k, v in info["episode"].items():
                             decode = {"r": "return", "l": "length", "t": "time"}
-                            wandb.log({f"training/{decode[k]}": v}, step=i)
+                            self.wandb_run.log({f"training/{decode[k]}": v},
+                                               step=i)
 
             if i >= start_training:
                 batch = replay_buffer.sample(batch_size * utd_ratio)
@@ -186,7 +189,7 @@ class QSMExperiment(experiment.AbstractExperiment):
 
                 if use_wandb and i % log_interval == 0:
                     for k, v in update_info.items():
-                        wandb.log({f"training/{k}": v}, step=i)
+                        self.wandb_run.log({f"training/{k}": v}, step=i)
 
             if use_wandb and i % eval_interval == 0:
                 eval_info = evaluate(
@@ -196,13 +199,15 @@ class QSMExperiment(experiment.AbstractExperiment):
                     save_video=save_video,
                 )
                 for k, v in eval_info.items():
-                    wandb.log({f"evaluation/{k}": v}, step=i)
+                    self.wandb_run.log({f"evaluation/{k}": v}, step=i)
 
-    def run(self, config: dict, rep: int, logger: cw_logging.LoggerArray) -> None:
+    def run(self, config: dict, rep: int,
+            logger: cw_logging.LoggerArray) -> None:
         pass
 
     def finalize(
-        self, surrender: cw_error.ExperimentSurrender = None, crash: bool = False
+            self, surrender: cw_error.ExperimentSurrender = None,
+            crash: bool = False
     ):
         if surrender is not None:
             cw_logging.getLogger().info("Run was surrendered early.")
@@ -210,7 +215,7 @@ class QSMExperiment(experiment.AbstractExperiment):
         if crash:
             cw_logging.getLogger().warning("Run crashed with an exception.")
         cw_logging.getLogger().info("Finished. Closing Down.")
-
+        self.wandb_run.finish()
 
 
 if __name__ == "__main__":

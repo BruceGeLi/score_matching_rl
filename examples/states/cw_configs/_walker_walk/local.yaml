@@ -23,3 +23,11 @@ params:
   actor_depth: 2
   critic_width: 512
   critic_depth: 2
+
+grid:
+  denoising_steps: [5, 10]
+  alpha: 50
+  actor_width: 512
+  actor_depth: 2
+  critic_width: 512
+  critic_depth: 2
