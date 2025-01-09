@@ -10,7 +10,7 @@ gpus_per_rep: 1
 scheduler: horeka
 sbatch_args:
   gres: "gpu:4"
-  account: "hk-project-p0022232"
+  account: "hk-project-p0022253"
 ---
 
 # cw2 config
