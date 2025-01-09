@@ -5,7 +5,7 @@ job-name: "humanoid_stand"
 num_parallel_jobs: 120
 ntasks: 1
 cpus-per-task: 152
-time: 600
+time: 1000
 gpus_per_rep: 1
 scheduler: horeka
 sbatch_args:
@@ -22,7 +22,7 @@ reps_in_parallel: 4
 # Global config
 exp_name: &exp_name "humanoid_stand"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "Onur's default, T5, alpha 50"
+sub_exp_name: &sub_exp_name "Tune dnoise steps, Onur's default, alpha 50"
 
 # cw2 config
 name: *exp_name
@@ -40,3 +40,7 @@ params:
   actor_depth: 3
   critic_width: 2048
   critic_depth: 2
+
+grid:
+  denoising_steps: [ 5, 10, 15 ]
+#  alpha: 50
