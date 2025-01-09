@@ -22,7 +22,7 @@ reps_in_parallel: 4
 # Global config
 exp_name: &exp_name "dog_stand"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "First try"
+sub_exp_name: &sub_exp_name "Onur's default, T5, alpha 50"
 
 # cw2 config
 name: *exp_name
