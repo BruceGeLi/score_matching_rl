@@ -104,6 +104,7 @@ class QSMExperiment(experiment.AbstractExperiment):
         wandb.config.update({"seed": seed})
 
         suite, task = env_name.split('_')
+        print(f"Env name: {env_name}")
         env = dmc2gym.make(domain_name=suite, task_name=task, seed=1)
         # env = gym.make(env_name)
 
