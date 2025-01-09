@@ -11,6 +11,7 @@ time: 100
 #scheduler: horeka
 sbatch_args:
   gres: "gpu:1"
+  account: "hk-project-p0022232"
 ---
 
 # cw2 config
