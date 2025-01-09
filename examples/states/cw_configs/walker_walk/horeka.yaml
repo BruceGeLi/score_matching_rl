@@ -7,10 +7,10 @@ ntasks: 1
 cpus-per-task: 19
 mem-per-cpu: 2048
 time: 100
-gpus_per_rep: 1
-scheduler: horeka
+#gpus_per_rep: 1
+#scheduler: horeka
 sbatch_args:
-  gres: "gpu:4"
+  gres: "gpu:1"
   account: "hk-project-p0022232"
 ---
 
