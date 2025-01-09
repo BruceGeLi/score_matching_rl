@@ -7,17 +7,17 @@ ntasks: 1
 cpus-per-task: 19
 mem-per-cpu: 2048
 time: 100
-#gpus_per_rep: 1
-#scheduler: horeka
+gpus_per_rep: 1
+scheduler: horeka
 sbatch_args:
-  gres: "gpu:1"
+  gres: "gpu:4"
   account: "hk-project-p0022232"
 ---
 
 # cw2 config
 repetitions: 4            # Number of repetitions, each with different random seed, 4 for test, 20 for paper
-reps_per_job: 1
-reps_in_parallel: 1
+reps_per_job: 4
+reps_in_parallel: 4
 
 
 # Global config
@@ -35,8 +35,8 @@ params:
     project: *exp_name
     group: *sub_exp_name
   env_id: *exp_name
-  denoising_steps: 10
-  alpha: 100
+  denoising_steps: 5
+  alpha: 50
   actor_width: 512
   actor_depth: 2
   critic_width: 512
