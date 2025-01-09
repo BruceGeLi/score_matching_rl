@@ -26,5 +26,27 @@ alias ss='cd ~/ && source .bashrc && conda activate onur_icml'
 # Exp
 alias runexp='cdmprl && python train_score_matching_online.py'
 
+#################################  DMC #################################
 ## Walker walk
 alias walker_walk='runexp ./cw_configs/_walker_walk/horeka.yaml   -o -s'
+
+## Dog run
+alias dog_run='runexp ./cw_configs/dog_run/horeka.yaml   -o -s'
+
+## Dog walk
+alias dog_walk='runexp ./cw_configs/dog_walk/horeka.yaml   -o -s'
+
+## Dog stand
+alias dog_stand='runexp ./cw_configs/dog_stand/horeka.yaml   -o -s'
+
+## Dog trot
+alias dog_trot='runexp ./cw_configs/dog_trot/horeka.yaml   -o -s'
+
+## Humanoid run
+alias humanoid_run='runexp ./cw_configs/humanoid_run/horeka.yaml   -o -s'
+
+## Humanoid stand
+alias humanoid_stand='runexp ./cw_configs/humanoid_stand/horeka.yaml   -o -s'
+
+## Humanoid walk
+alias humanoid_walk='runexp ./cw_configs/humanoid_walk/horeka.yaml   -o -s'
