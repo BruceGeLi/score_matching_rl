@@ -5,7 +5,7 @@ job-name: "dog_run"
 num_parallel_jobs: 120
 ntasks: 1
 cpus-per-task: 152
-time: 600
+time: 1000
 gpus_per_rep: 1
 scheduler: horeka
 sbatch_args:
@@ -36,7 +36,7 @@ params:
   env_id: *exp_name
   denoising_steps: 5
   alpha: 50
-  actor_width: 512
-  actor_depth: 2
-  critic_width: 512
+  actor_width: 256
+  actor_depth: 3
+  critic_width: 2048
   critic_depth: 2
