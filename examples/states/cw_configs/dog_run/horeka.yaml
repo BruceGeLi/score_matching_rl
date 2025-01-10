@@ -1,11 +1,12 @@
 ---
 name: "SLURM"
-partition: "accelerated"
+#partition: "accelerated"
+partition: "dev_accelerated"
 job-name: "dog_run"
 num_parallel_jobs: 120
 ntasks: 1
-cpus-per-task: 19
-time: 1000
+cpus-per-task: 4
+time: 10
 #gpus_per_rep: 1
 #scheduler: horeka
 sbatch_args:

@@ -248,9 +248,9 @@ class QSMExperiment(experiment.AbstractExperiment):
 
         # Get experiment config
         cfg = cw_config["params"]
-        cpu_cores = cw_config.get("cpu_cores", None)
-        if cpu_cores is None:
-            cpu_cores = set(range(psutil.cpu_count(logical=True)))
+        # cpu_cores = cw_config.get("cpu_cores", None)
+        # if cpu_cores is None:
+        #     cpu_cores = set(range(psutil.cpu_count(logical=True)))
 
         # Note, initialization of the official code
         project_name = cfg["wandb"]["project"]
