@@ -32,6 +32,7 @@ alias walker_walk='runexp ./cw_configs/_walker_walk/horeka.yaml   -o -s'
 
 ## Dog run
 alias dog_run='runexp ./cw_configs/dog_run/horeka.yaml   -o -s'
+alias dog_run_horeka_local='runexp ./cw_configs/dog_run/local.yaml   -o --nocodecopy'
 
 ## Dog walk
 alias dog_walk='runexp ./cw_configs/dog_walk/horeka.yaml   -o -s'
