@@ -22,7 +22,7 @@ reps_in_parallel: 1
 # Global config
 exp_name: &exp_name "dog_walk"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "T10, alpha75, tune critic width"
+sub_exp_name: &sub_exp_name "T10, alpha75, tune actor width"
 
 # cw2 config
 name: *exp_name
@@ -44,4 +44,4 @@ params:
 grid:
 #  denoising_steps: [ 5, 10, 15 ]
 #  alpha: 50
-  critic_width: [512, 1024]
+  actor_width: [128, 512]
