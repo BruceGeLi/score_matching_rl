@@ -44,6 +44,7 @@ params:
 grid:
 #  denoising_steps: [ 5, 10, 15 ]
 #  alpha: 50
+#  critic_width: [512, 1024]
 #  actor_width: [128, 512]
 #  actor_depth: [1, 2, 4]
   critic_depth: [1, 3, 4]
