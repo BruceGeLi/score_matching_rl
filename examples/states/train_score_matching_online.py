@@ -269,7 +269,7 @@ class QSMExperiment(experiment.AbstractExperiment):
         use_tqdm = True
         use_wandb = True
         no_reset_env = False
-        save_video = True
+        save_video = False
         utd_ratio = 1
 
         # Config training hyperparameters
