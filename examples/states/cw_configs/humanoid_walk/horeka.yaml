@@ -22,7 +22,7 @@ reps_in_parallel: 1
 # Global config
 exp_name: &exp_name "humanoid_walk"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "T20, alpha100, tune actor_depth"
+sub_exp_name: &sub_exp_name "T20, alpha100, tune actor_width"
 
 # cw2 config
 name: *exp_name
@@ -45,6 +45,6 @@ grid:
 #  denoising_steps: [ 20, 25, 30 ]
 #  alpha: 50
 #  critic_width: [512, 1024]
-#  actor_width: [128, 512]
-  actor_depth: [1, 2, 4]
+  actor_width: [128, 512]
+#  actor_depth: [1, 2, 4]
 #  critic_depth: [1, 3, 4]
