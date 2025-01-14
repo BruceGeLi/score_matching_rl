@@ -14,7 +14,7 @@ sbatch_args:
 ---
 
 # cw2 config
-repetitions: 4            # Number of repetitions, each with different random seed, 4 for test, 20 for paper
+repetitions: 10            # Number of repetitions, each with different random seed, 4 for test, 20 for paper
 reps_per_job: 1
 reps_in_parallel: 1
 
