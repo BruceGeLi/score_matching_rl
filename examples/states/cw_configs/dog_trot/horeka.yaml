@@ -22,7 +22,7 @@ reps_in_parallel: 1
 # Global config
 exp_name: &exp_name "dog_trot"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "T10, alpha 250, tune critic_depth"
+sub_exp_name: &sub_exp_name "T10, alpha 250, critic_depth3, 10 seeds"
 
 # cw2 config
 name: *exp_name
@@ -39,12 +39,12 @@ params:
   actor_width: 256
   actor_depth: 3
   critic_width: 2048
-  critic_depth: 2
+  critic_depth: 3
 
-grid:
+#grid:
 #  denoising_steps: [ 5, 10, 15 ]
 #  alpha: [150, 200, 250]
 #  critic_width: [512, 1024]
 #  actor_width: [128, 512]
 #  actor_depth: [1, 2, 4]
-  critic_depth: [1, 3, 4]
+#  critic_depth: [1, 3, 4]
