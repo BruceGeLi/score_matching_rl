@@ -14,7 +14,7 @@ sbatch_args:
 ---
 
 # cw2 config
-repetitions: 4            # Number of repetitions, each with different random seed, 4 for test, 20 for paper
+repetitions: 10            # Number of repetitions, each with different random seed, 4 for test, 20 for paper
 reps_per_job: 1
 reps_in_parallel: 1
 
@@ -22,7 +22,7 @@ reps_in_parallel: 1
 # Global config
 exp_name: &exp_name "dog_stand"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "alpha50, critic_depth 1024, tune T"
+sub_exp_name: &sub_exp_name "T15, alpha50, critic width 1024, 10 seeds"
 
 # cw2 config
 name: *exp_name
@@ -34,15 +34,15 @@ params:
     project: *exp_name
     group: *sub_exp_name
   env_id: *exp_name
-  denoising_steps: 5
+  denoising_steps: 15
   alpha: 50
   actor_width: 256
   actor_depth: 3
   critic_width: 1024
   critic_depth: 2
 
-grid:
-  denoising_steps: [ 5, 10, 15 ]
+#grid:
+#  denoising_steps: [ 5, 10, 15 ]
 #  alpha: 50
 #  critic_width: [512, 1024]
 #  actor_width: [128, 512]
