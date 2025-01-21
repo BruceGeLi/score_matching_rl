@@ -45,8 +45,8 @@ grid:
   env_id: [
     "myoHandObjHoldRandom-v0",
     "myoHandReachRandom-v0",
-    "myoSarcHandKeyTurnRandom-v0",
-    "myoSarcHandPenTwirlRandom-v0"
+    "myoHandKeyTurnRandom-v0",
+    "myoHandPenTwirlRandom-v0"
   ]
 #  denoising_steps: [ 5, 10, 15 ]
 #  alpha: 50
