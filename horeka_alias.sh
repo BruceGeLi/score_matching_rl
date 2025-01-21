@@ -25,6 +25,7 @@ alias ss='cd ~/ && source .bashrc && conda activate onur_icml'
 
 # Exp
 alias runexp='cdmprl && python train_score_matching_online.py'
+alias runexpmyo='cdmprl && python train_score_matching_online_myo_suite.py'
 
 #################################  DMC #################################
 ## Walker walk
@@ -55,3 +56,7 @@ alias humanoid_walk='runexp ./cw_configs/humanoid_walk/horeka.yaml   -o -s'
 
 ## Run all jobs together with 1 second delay in between
 alias run_all_dmc='dog_run && sleep 1 && dog_walk && sleep 1 && dog_stand && sleep 1 && dog_trot && sleep 1 && humanoid_run && sleep 1 && humanoid_stand && sleep 1 && humanoid_walk && sleep 1'
+
+
+## Myosuite
+alias myosuite='runexpmyo ./cw_configs/myosuite/horeka.yaml   -o -s'
