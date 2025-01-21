@@ -22,6 +22,7 @@ alias gp='cdmprl && git pull'
 # Env alias
 alias vb='cd ~/ && vim .bashrc'
 alias ss='cd ~/ && source .bashrc && conda activate onur_icml'
+alias ssmyo='cd ~/ && source .bashrc && conda activate onur_icml_myo'
 
 # Exp
 alias runexp='cdmprl && python train_score_matching_online.py'
