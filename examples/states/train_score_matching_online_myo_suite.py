@@ -294,6 +294,7 @@ class QSMExperiment(experiment.AbstractExperiment):
 
         self.wandb_run.config.update(dict(train_configs))
         self.wandb_run.config.update({"seed": seed})
+        self.wandb_run.config.update({"env_name": env_name})
 
         print(f"Env name: {env_name}")
         env = gym.make(env_name)  # fixme, check seed
