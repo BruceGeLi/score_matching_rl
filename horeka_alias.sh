@@ -23,10 +23,12 @@ alias gp='cdmprl && git pull'
 alias vb='cd ~/ && vim .bashrc'
 alias ss='cd ~/ && source .bashrc && conda activate onur_icml'
 alias ssmyo='cd ~/ && source .bashrc && conda activate onur_icml_myo'
+alias ssgym='cd ~/ && source .bashrc && conda activate onur_icml_mujoco_py'
 
 # Exp
 alias runexp='cdmprl && python train_score_matching_online.py'
 alias runexpmyo='cdmprl && python train_score_matching_online_myo_suite.py'
+alias runexpgym='cdmprl && python train_score_matching_online_gym_v3.py'
 
 #################################  DMC #################################
 ## Walker walk
@@ -61,3 +63,6 @@ alias run_all_dmc='dog_run && sleep 1 && dog_walk && sleep 1 && dog_stand && sle
 
 ## Myosuite
 alias myosuite='runexpmyo ./cw_configs/myosuite/horeka.yaml   -o -s'
+
+## Gym V3
+alias gym_v3='runexpgym ./cw_configs/gym_v3/horeka.yaml   -o -s'
