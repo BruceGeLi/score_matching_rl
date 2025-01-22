@@ -1,0 +1,54 @@
+---
+name: "SLURM"
+partition: "accelerated"
+job-name: "gym_v3"
+num_parallel_jobs: 120
+ntasks: 1
+cpus-per-task: 4
+time: 200
+#gpus_per_rep: 1
+#scheduler: horeka
+sbatch_args:
+  gres: "gpu:1"
+  account: "hk-project-p0022232"
+---
+
+# cw2 config
+repetitions: 10            # Number of repetitions, each with different random seed, 4 for test, 20 for paper
+reps_per_job: 1
+reps_in_parallel: 1
+
+
+# Global config
+exp_name: &exp_name "gym_v3"
+exp_path: &exp_path "../../../qsm_exp_result"
+sub_exp_name: &sub_exp_name "First try"
+
+# cw2 config
+name: *exp_name
+path: *exp_path
+
+# experiment parameters
+params:
+  wandb:
+    project: *exp_name
+    group: *sub_exp_name
+  env_id: "Ant-v3"
+  denoising_steps: 15
+  alpha: 100
+  actor_width: 256
+  actor_depth: 3
+  critic_width: 2048
+  critic_depth: 2
+
+grid:
+  env_id: [
+    "Ant-v3",
+    "Humanoid-v3",
+  ]
+#  denoising_steps: [ 5, 10, 15 ]
+#  alpha: 50
+#  critic_width: [512, 1024]
+#  actor_width: [128, 512]
+#  actor_depth: [1, 2, 4]
+#  critic_depth: [1, 3, 4]

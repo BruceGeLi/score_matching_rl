@@ -1,4 +1,3 @@
-import copy
 from typing import Dict
 
 import gym
@@ -13,17 +12,13 @@ def evaluate(
     if save_video:
         env = WANDBVideo(env, name="eval_video", max_videos=1)
     env = gym.wrappers.RecordEpisodeStatistics(env, deque_size=num_episodes)
-    solved_list = []
+
     for _ in range(num_episodes):
         observation, done = env.reset(), False
         while not done:
             action, agent = agent.eval_actions(observation)
-            observation, _, done, info = env.step(action)
-        solved_list.append(float(info["solved"]))  # Myo suite only
-
-    eval_info={"return": np.mean(env.return_queue),
-               "solved": np.mean(solved_list)}
-    return eval_info
+            observation, _, done, _ = env.step(action)
+    return {"return": np.mean(env.return_queue)}
 
 def implicit_evaluate(
     agent, env: gym.Env, num_episodes: int, save_video: bool = False
