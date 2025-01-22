@@ -257,7 +257,7 @@ class QSMExperiment(experiment.AbstractExperiment):
         env_name = cfg["env_id"]
         seed = rep
         # seed = 42
-        eval_episodes = 1
+        eval_episodes = 10  # fixme, is this correct?
         log_interval = 1000
         eval_interval = 10000
         batch_size = 256
@@ -373,6 +373,7 @@ class QSMExperiment(experiment.AbstractExperiment):
                             decode = {"r": "return", "l": "length", "t": "time"}
                             self.wandb_run.log({f"training/{decode[k]}": v},
                                                step=i)
+                        self.wandb_run.log({"training/success": float(info["solved"])}, step=i)
                 else:
                     done = False
 
@@ -397,8 +398,11 @@ class QSMExperiment(experiment.AbstractExperiment):
                     num_episodes=eval_episodes,
                     save_video=save_video,
                 )
-                for k, v in eval_info.items():
-                    self.wandb_run.log({f"evaluation/{k}": v}, step=i)
+
+                self.wandb_run.log({"evaluation/return": eval_info["return"]},
+                                   step=i)
+                self.wandb_run.log({"evaluation/success":
+                                        float(eval_info["solved"])}, step=i)
 
     def run(self, config: dict, rep: int,
             logger: cw_logging.LoggerArray) -> None:
