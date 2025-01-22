@@ -254,7 +254,7 @@ class QSMExperiment(experiment.AbstractExperiment):
         env_name = cfg["env_id"]
         seed = rep
         # seed = 42
-        eval_episodes = 10
+        eval_episodes = 1
         log_interval = 1000
         eval_interval = 10000
         batch_size = 256
