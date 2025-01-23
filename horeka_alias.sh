@@ -66,3 +66,4 @@ alias myosuite='runexpmyo ./cw_configs/myosuite/horeka.yaml   -o -s'
 
 ## Gym V3
 alias gym_v3='runexpgym ./cw_configs/gym_v3/horeka.yaml   -o -s'
+alias gym_v3_debug='runexpgym ./cw_configs/gym_v3/horeka_short_time_try.yaml   -o -s'
