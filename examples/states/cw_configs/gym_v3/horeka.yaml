@@ -22,7 +22,7 @@ reps_in_parallel: 1
 # Global config
 exp_name: &exp_name "gym_v3"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "First try, 10 seeds"
+sub_exp_name: &sub_exp_name "Use QSM default HPs, 10 seeds"
 
 # cw2 config
 name: *exp_name
@@ -34,11 +34,11 @@ params:
     project: *exp_name
     group: *sub_exp_name
   env_id: "Ant-v3"
-  denoising_steps: 15
-  alpha: 100
-  actor_width: 256
-  actor_depth: 3
-  critic_width: 2048
+  denoising_steps: 5
+  alpha: 50
+  actor_width: 512
+  actor_depth: 2
+  critic_width: 512
   critic_depth: 2
 
 grid:
