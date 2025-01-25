@@ -17,6 +17,7 @@ params:
     project: *exp_name
     group: *sub_exp_name
   env_id: "Ant-v3"
+#  env_id: "Humanoid-v3"
   denoising_steps: 5
   alpha: 50
   actor_width: 512
