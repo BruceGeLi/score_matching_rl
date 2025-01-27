@@ -35,19 +35,19 @@ params:
     group: *sub_exp_name
   env_id: "Ant-v3"
   denoising_steps: 5
-  alpha: 10
+  alpha: 1
   actor_width: 512
   actor_depth: 2
   critic_width: 512
   critic_depth: 2
 
-grid:
+#grid:
 #  env_id: [
 #    "Ant-v3",
 #    "Humanoid-v3",
 #  ]
 #  denoising_steps: [ 5, 10, 15 ]
-  alpha: [0.2, 1, 5, 15]
+#  alpha: [0.2, 1, 5, 15]
 #  critic_width: [512, 1024]
 #  actor_width: [128, 512]
 #  actor_depth: [1, 2, 4]
