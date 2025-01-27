@@ -22,7 +22,7 @@ reps_in_parallel: 1
 # Global config
 exp_name: &exp_name "gym_v3"
 exp_path: &exp_path "../../../qsm_exp_result"
-sub_exp_name: &sub_exp_name "Ant, tune alpha, 2 seeds"
+sub_exp_name: &sub_exp_name "Ant, tune alpha, 10 seeds"
 
 # cw2 config
 name: *exp_name
